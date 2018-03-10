@@ -12,7 +12,7 @@ public class PlayerControler : MonoBehaviour {
 
 	public float speed;
 	public GameObject Cible;
-	public GameObject SriptMouv;
+	public GameObject SpritMouv;
 	public Material CoteG;
 	public Material FaceH;
 	public Material CoteD;
@@ -25,19 +25,22 @@ public class PlayerControler : MonoBehaviour {
 	private bool isMouveDown;
     public Boundary ZoneDeJeu;
 	
-	//public AudioClip Genkidama;
+	public AudioClip Genkidama;
 	public AudioClip Dash1;
+	public AudioClip Dash2;
+	public AudioClip Dash3;
 	public AudioClip kamehameha;
 	public GameObject shot;
 	public GameObject shotSpeNiv3;
 	public GameObject shotSpeNiv2;
     public Transform shotSpawn;
     public float fireRate;
+	private float hazard;
     private float nextFire;
 	
 	void Start()
 	{
-		Tab=SriptMouv.GetComponent<MeshRenderer>().materials;
+		Tab=SpritMouv.GetComponent<MeshRenderer>().materials;
 		isMouveLeft=false;
 		isMouveDown=false;
 		isMouveUp=false;
@@ -56,8 +59,8 @@ public class PlayerControler : MonoBehaviour {
         {
             nextFire = Time.time + fireRate;
             Instantiate(shotSpeNiv3, shotSpawn.position, shotSpawn.rotation);
-			/*Cible.GetComponent<AudioSource>().clip=Genkidama;
-			Cible.GetComponent<AudioSource>().Play();*/
+			SpritMouv.GetComponent<AudioSource>().clip=Genkidama;
+			SpritMouv.GetComponent<AudioSource>().Play();
 			Ki=0;
         }
 		
@@ -65,8 +68,8 @@ public class PlayerControler : MonoBehaviour {
         {
 			nextFire = Time.time + fireRate;
 			Instantiate(shotSpeNiv2, shotSpawn.position, shotSpawn.rotation);
-			SriptMouv.GetComponent<AudioSource>().clip=kamehameha;
-			SriptMouv.GetComponent<AudioSource>().Play();
+			SpritMouv.GetComponent<AudioSource>().clip=kamehameha;
+			SpritMouv.GetComponent<AudioSource>().Play();
 			Ki=0;
         }
     }
@@ -75,15 +78,22 @@ public class PlayerControler : MonoBehaviour {
     {
         float moveHorizontal = Input.GetAxis ("Horizontal");
         float moveVertical = Input.GetAxis ("Vertical");
+		hazard=Random.Range(1,3);
 		
 		if (moveHorizontal<0){
 			isMouveDown=false;
 			isMouveUp=false;
 			isMouveRight=false;
 			Tab[0]=CoteG;
-			SriptMouv.GetComponent<MeshRenderer>().materials=Tab;
+			SpritMouv.GetComponent<MeshRenderer>().materials=Tab;
 			if (!isMouveLeft){
-				Cible.GetComponent<AudioSource>().clip=Dash1;
+				if (hazard==1){
+					Cible.GetComponent<AudioSource>().clip=Dash1;
+				}else if (hazard==3){
+					Cible.GetComponent<AudioSource>().clip=Dash3;
+				}else{
+					Cible.GetComponent<AudioSource>().clip=Dash2;
+				}
 				Cible.GetComponent<AudioSource>().Play();
 				isMouveLeft=true;
 			}
@@ -92,9 +102,15 @@ public class PlayerControler : MonoBehaviour {
 			isMouveUp=false;
 			isMouveLeft=false;
 			Tab[0]=CoteD;
-			SriptMouv.GetComponent<MeshRenderer>().materials=Tab;
+			SpritMouv.GetComponent<MeshRenderer>().materials=Tab;
 			if (!isMouveRight){
-				Cible.GetComponent<AudioSource>().clip=Dash1;
+				if (hazard==1){
+					Cible.GetComponent<AudioSource>().clip=Dash1;
+				}else if (hazard==3){
+					Cible.GetComponent<AudioSource>().clip=Dash3;
+				}else{
+					Cible.GetComponent<AudioSource>().clip=Dash2;
+				}
 				Cible.GetComponent<AudioSource>().Play();
 				isMouveRight=true;
 			}
@@ -103,25 +119,40 @@ public class PlayerControler : MonoBehaviour {
 			isMouveUp=false;
 			isMouveRight=false;
 			Tab[0]=FaceB;
-			SriptMouv.GetComponent<MeshRenderer>().materials=Tab;
+			SpritMouv.GetComponent<MeshRenderer>().materials=Tab;
 			if (!isMouveDown){
-				Cible.GetComponent<AudioSource>().clip=Dash1;
+				if (hazard==1){
+					Cible.GetComponent<AudioSource>().clip=Dash1;
+				}else if (hazard==3){
+					Cible.GetComponent<AudioSource>().clip=Dash3;
+				}else{
+					Cible.GetComponent<AudioSource>().clip=Dash2;
+				}
 				Cible.GetComponent<AudioSource>().Play();
 				isMouveDown=true;
 			}
-		}else {
-			if (moveVertical>0){
-				isMouveDown=false;
-				isMouveLeft=false;
-				isMouveRight=false;
-			}
+		}else if (moveVertical>0){
+			isMouveDown=false;
+			isMouveLeft=false;
+			isMouveRight=false;
 			Tab[0]=FaceH;
-			SriptMouv.GetComponent<MeshRenderer>().materials=Tab;
-			if (!isMouveUp && moveVertical>0){
-				Cible.GetComponent<AudioSource>().clip=Dash1;
+			SpritMouv.GetComponent<MeshRenderer>().materials=Tab;
+			if (!isMouveUp){
+				if (hazard==1){
+					Cible.GetComponent<AudioSource>().clip=Dash1;
+				}else if (hazard==3){
+					Cible.GetComponent<AudioSource>().clip=Dash3;
+				}else{
+					Cible.GetComponent<AudioSource>().clip=Dash2;
+				}
 				Cible.GetComponent<AudioSource>().Play();
 				isMouveUp=true;
 			}
+		}else{
+			isMouveDown=false;
+			isMouveLeft=false;
+			isMouveRight=false;
+			isMouveUp=false;
 		}
         Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
         Cible.GetComponent <Rigidbody>().velocity = movement * speed;
