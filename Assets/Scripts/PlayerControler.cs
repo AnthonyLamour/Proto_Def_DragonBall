@@ -17,7 +17,6 @@ public class PlayerControler : MonoBehaviour {
 	public Material FaceH;
 	public Material CoteD;
 	public Material FaceB;
-	public int Ki;
 	private Material[] Tab;
 	private bool isMouveLeft;
 	private bool isMouveRight;
@@ -25,6 +24,7 @@ public class PlayerControler : MonoBehaviour {
 	private bool isMouveDown;
     public Boundary ZoneDeJeu;
 	
+	public float TailleBar;
 	public AudioClip Genkidama;
 	public AudioClip Dash1;
 	public AudioClip Dash2;
@@ -37,6 +37,10 @@ public class PlayerControler : MonoBehaviour {
     public float fireRate;
 	private float hazard;
     private float nextFire;
+	private GameObject Ki1;
+	private GameObject Ki2;
+	private GameObject Ki3;
+	private Vector3 RefPoint;
 	
 	void Start()
 	{
@@ -45,6 +49,10 @@ public class PlayerControler : MonoBehaviour {
 		isMouveDown=false;
 		isMouveUp=false;
 		isMouveRight=false;
+		Ki1=GameObject.Find("KiNiv1");
+		Ki2=GameObject.Find("KiNiv2");
+		Ki3=GameObject.Find("KiNiv3");
+		RefPoint=new Vector3(4F, 6F, 4F);
 	}
 
 	void Update ()
@@ -55,22 +63,27 @@ public class PlayerControler : MonoBehaviour {
             Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
         }
 		
-		if ((Input.GetButton("Fire2")) && Ki==3)
+		if ((Input.GetButton("Fire2")) && Ki1.GetComponent<Transform>().localScale.x==TailleBar && Ki2.GetComponent<Transform>().localScale.x==TailleBar && Ki3.GetComponent<Transform>().localScale.x==TailleBar)
         {
             nextFire = Time.time + fireRate;
             Instantiate(shotSpeNiv3, shotSpawn.position, shotSpawn.rotation);
 			SpritMouv.GetComponent<AudioSource>().clip=Genkidama;
 			SpritMouv.GetComponent<AudioSource>().Play();
-			Ki=0;
-        }
-		
-		if ((Input.GetButton("Fire2")) && Ki==2)
+			Ki1.GetComponent<Transform>().localScale=new Vector3(0.5F, 0.3F, 1F);
+			Ki2.GetComponent<Transform>().localScale=new Vector3(0.5F, 0.3F, 1F);
+			Ki3.GetComponent<Transform>().localScale=new Vector3(0.5F, 0.3F, 1F);
+			Ki1.GetComponent<Transform>().position = RefPoint+new Vector3(Ki1.GetComponent<Transform>().localScale.x/2F, 6F, 0);
+			Ki3.GetComponent<Transform>().position = RefPoint+new Vector3(Ki2.GetComponent<Transform>().localScale.x/2F, 4.9F, 0);
+        }else if ((Input.GetButton("Fire2")) && Ki1.GetComponent<Transform>().localScale.x==TailleBar && Ki2.GetComponent<Transform>().localScale.x==TailleBar)
         {
 			nextFire = Time.time + fireRate;
 			Instantiate(shotSpeNiv2, shotSpawn.position, shotSpawn.rotation);
 			SpritMouv.GetComponent<AudioSource>().clip=kamehameha;
 			SpritMouv.GetComponent<AudioSource>().Play();
-			Ki=0;
+			Ki1.GetComponent<Transform>().localScale=new Vector3(0.5F, 0.3F, 1F);
+			Ki2.GetComponent<Transform>().localScale=new Vector3(0.5F, 0.3F, 1F);
+			Ki1.GetComponent<Transform>().position = RefPoint+new Vector3(Ki1.GetComponent<Transform>().localScale.x/2F, 6F, 0);
+			Ki2.GetComponent<Transform>().position = RefPoint+new Vector3(Ki2.GetComponent<Transform>().localScale.x/2F, 4.9F, 0);
         }
     }
 

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Kamehameha : MonoBehaviour {
 	
 	public GameObject Cible;
-	public GameObject Perso;
+	private GameObject Perso;
 	private Transform spawnPoint;
 	
 	void Start(){
