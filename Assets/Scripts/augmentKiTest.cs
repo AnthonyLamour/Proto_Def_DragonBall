@@ -14,7 +14,7 @@ public class augmentKiTest : MonoBehaviour {
 		Ki1=GameObject.Find("KiNiv1");
 		Ki2=GameObject.Find("KiNiv2");
 		Ki3=GameObject.Find("KiNiv3");
-		RefPoint=new Vector3(4F, 6F, 4F);
+		RefPoint=new Vector3(-10F, 6F, -4F);
 	}
 	
 	void Update () {

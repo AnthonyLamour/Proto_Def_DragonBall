@@ -10,9 +10,11 @@ public class Boundary
 
 public class PlayerControler : MonoBehaviour {
 
-	public float speed;
+	public float BaseSpeed;
+	public float kaiokenSpeed;
 	public GameObject Cible;
 	public GameObject SpritMouv;
+	public GameObject PorteurEffetKaioken;
 	public Material CoteG;
 	public Material FaceH;
 	public Material CoteD;
@@ -22,10 +24,13 @@ public class PlayerControler : MonoBehaviour {
 	private bool isMouveRight;
 	private bool isMouveUp;
 	private bool isMouveDown;
+	private float curentSpeed;
     public Boundary ZoneDeJeu;
 	
 	public float TailleBar;
 	public AudioClip Genkidama;
+	public AudioClip KaiokenVoix;
+	public AudioClip KaiokenEffet;
 	public AudioClip Dash1;
 	public AudioClip Dash2;
 	public AudioClip Dash3;
@@ -41,6 +46,9 @@ public class PlayerControler : MonoBehaviour {
 	private GameObject Ki2;
 	private GameObject Ki3;
 	private Vector3 RefPoint;
+	private bool isKaioken;
+	private float attenteKaioken;
+	private float nextKaioken;
 	
 	void Start()
 	{
@@ -52,7 +60,10 @@ public class PlayerControler : MonoBehaviour {
 		Ki1=GameObject.Find("KiNiv1");
 		Ki2=GameObject.Find("KiNiv2");
 		Ki3=GameObject.Find("KiNiv3");
-		RefPoint=new Vector3(4F, 6F, 4F);
+		RefPoint=new Vector3(-10F, 6F, -4F);
+		curentSpeed=BaseSpeed;
+		isKaioken=false;
+		attenteKaioken=1;
 	}
 
 	void Update ()
@@ -85,6 +96,47 @@ public class PlayerControler : MonoBehaviour {
 			Ki1.GetComponent<Transform>().position = RefPoint+new Vector3(Ki1.GetComponent<Transform>().localScale.x/2F, 6F, 0);
 			Ki2.GetComponent<Transform>().position = RefPoint+new Vector3(Ki2.GetComponent<Transform>().localScale.x/2F, 4.9F, 0);
         }
+		
+		if ((Input.GetButton("Fire3")) && Ki1.GetComponent<Transform>().localScale.x>0.5F && Time.time > nextKaioken){
+			if (!isKaioken){
+				nextKaioken = Time.time + attenteKaioken;
+				SpritMouv.GetComponent<AudioSource>().clip=KaiokenVoix;
+				SpritMouv.GetComponent<AudioSource>().Play();
+				PorteurEffetKaioken.GetComponent<AudioSource>().clip=KaiokenEffet;
+				PorteurEffetKaioken.GetComponent<AudioSource>().Play();
+				curentSpeed=kaiokenSpeed;
+				isKaioken=true;
+			}else {
+				nextKaioken = Time.time + attenteKaioken;
+				curentSpeed=BaseSpeed;
+				isKaioken=false;
+			}
+		}
+		
+		if (isKaioken){
+			if(Ki3.GetComponent<Transform>().localScale.x>0.5F){
+				Ki3.GetComponent<Transform>().localScale = Ki3.GetComponent<Transform>().localScale-new Vector3(0.5F, 0, 0);
+				Ki3.GetComponent<Transform>().position = RefPoint+new Vector3(Ki3.GetComponent<Transform>().localScale.x/2F, 0, 0);
+				if (Ki3.GetComponent<Transform>().localScale.x==0.5F){
+					Ki3.GetComponent<Transform>().position = RefPoint+new Vector3(Ki3.GetComponent<Transform>().localScale.x/2F, 4.9F, 0);
+					Ki2.GetComponent<Transform>().position = RefPoint+new Vector3(Ki2.GetComponent<Transform>().localScale.x/2F, 6F, 0);
+				}
+			}else if(Ki2.GetComponent<Transform>().localScale.x>0.5F){
+				Ki2.GetComponent<Transform>().localScale = Ki2.GetComponent<Transform>().localScale-new Vector3(0.5F, 0, 0);
+				Ki2.GetComponent<Transform>().position = RefPoint+new Vector3(Ki2.GetComponent<Transform>().localScale.x/2F, 0, 0);
+				if (Ki2.GetComponent<Transform>().localScale.x==0.5F){
+					Ki2.GetComponent<Transform>().position = RefPoint+new Vector3(Ki2.GetComponent<Transform>().localScale.x/2F, 4.9F, 0);
+					Ki1.GetComponent<Transform>().position = RefPoint+new Vector3(Ki1.GetComponent<Transform>().localScale.x/2F, 6F, 0);
+				}
+			}else if(Ki1.GetComponent<Transform>().localScale.x>0.5F){
+				Ki1.GetComponent<Transform>().localScale = Ki1.GetComponent<Transform>().localScale-new Vector3(0.5F, 0, 0);
+				Ki1.GetComponent<Transform>().position = RefPoint+new Vector3(Ki1.GetComponent<Transform>().localScale.x/2F, 0, 0);
+				if (Ki1.GetComponent<Transform>().localScale.x==0.5F){
+					isKaioken=false;
+					curentSpeed=BaseSpeed;
+				}
+			}
+		}
     }
 
     void FixedUpdate ()
@@ -168,7 +220,7 @@ public class PlayerControler : MonoBehaviour {
 			isMouveUp=false;
 		}
         Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
-        Cible.GetComponent <Rigidbody>().velocity = movement * speed;
+        Cible.GetComponent <Rigidbody>().velocity = movement * curentSpeed;
 
         Cible.GetComponent <Rigidbody>().position = new Vector3 
         (
