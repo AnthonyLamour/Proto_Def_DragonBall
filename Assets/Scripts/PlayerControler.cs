@@ -34,6 +34,8 @@ public class PlayerControler : MonoBehaviour {
 			public Material FaceH;
 			public Material CoteD;
 			public Material FaceB;
+			public Material Static;
+			public Material PlayerShot;
 		//Materiel du player actuel
 			private Material[] Tab;
 	
@@ -105,7 +107,7 @@ public class PlayerControler : MonoBehaviour {
 				Ki1=GameObject.Find("KiNiv1");
 				Ki2=GameObject.Find("KiNiv2");
 				Ki3=GameObject.Find("KiNiv3");
-				RefPoint=new Vector3(-10F, 6F, -4F);
+				RefPoint=new Vector3(-10F, -1F, -4F);
 				
 			//initialisation des varibles de tire
 				curentSpeed=BaseSpeed;
@@ -123,6 +125,9 @@ public class PlayerControler : MonoBehaviour {
 				{
 					//...on incrémente la varible d'autorisation de tire
 						nextFire = Time.time + curentFireRate;
+					//changement du sprite du player
+						Tab[0]=PlayerShot;
+						SpriteMouv.GetComponent<MeshRenderer>().materials=Tab;
 					//et on fait tirer le player
 						Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
 				}
@@ -145,8 +150,8 @@ public class PlayerControler : MonoBehaviour {
 							Ki2.GetComponent<Transform>().localScale=new Vector3(0.5F, 0.3F, 1F);
 							Ki3.GetComponent<Transform>().localScale=new Vector3(0.5F, 0.3F, 1F);
 						//on modifi les positions des barres de ki
-							Ki1.GetComponent<Transform>().position = RefPoint+new Vector3(Ki1.GetComponent<Transform>().localScale.x/2F, 6F, 0);
-							Ki3.GetComponent<Transform>().position = RefPoint+new Vector3(Ki2.GetComponent<Transform>().localScale.x/2F, 4.9F, 0);
+							Ki1.GetComponent<Transform>().position = RefPoint+new Vector3(Ki1.GetComponent<Transform>().localScale.x/2F, -1F, 0);
+							Ki3.GetComponent<Transform>().position = RefPoint+new Vector3(Ki2.GetComponent<Transform>().localScale.x/2F, -1.5F, 0);
 			//de niveau 2
 				//sinon si le joueur utilise Fire2 et que 2 des barres de ki sont pleine alors...
 					}else if ((Input.GetButton("Fire2")) && Ki1.GetComponent<Transform>().localScale.x==TailleBar && 
@@ -164,9 +169,9 @@ public class PlayerControler : MonoBehaviour {
 							Ki2.GetComponent<Transform>().localScale=new Vector3(0.5F, 0.3F, 1F);
 							Ki3.GetComponent<Transform>().localScale=new Vector3(0.5F, 0.3F, 1F);
 						//on modifi les positions des barres de ki
-							Ki1.GetComponent<Transform>().position = RefPoint+new Vector3(Ki1.GetComponent<Transform>().localScale.x/2F, 6F, 0);
-							Ki2.GetComponent<Transform>().position = RefPoint+new Vector3(Ki2.GetComponent<Transform>().localScale.x/2F, 4.9F, 0);
-							Ki3.GetComponent<Transform>().position = RefPoint+new Vector3(Ki2.GetComponent<Transform>().localScale.x/2F, 4.9F, 0);
+							Ki1.GetComponent<Transform>().position = RefPoint+new Vector3(Ki1.GetComponent<Transform>().localScale.x/2F, -1F, 0);
+							Ki2.GetComponent<Transform>().position = RefPoint+new Vector3(Ki2.GetComponent<Transform>().localScale.x/2F, -1.5F, 0);
+							Ki3.GetComponent<Transform>().position = RefPoint+new Vector3(Ki2.GetComponent<Transform>().localScale.x/2F, -1.5F, 0);
 					}
 		
 		//Kaioken
@@ -207,15 +212,15 @@ public class PlayerControler : MonoBehaviour {
 							Ki3.GetComponent<Transform>().localScale = Ki3.GetComponent<Transform>().localScale-new Vector3(0.5F, 0, 0);
 							Ki3.GetComponent<Transform>().position = RefPoint+new Vector3(Ki3.GetComponent<Transform>().localScale.x/2F, 0, 0);
 							if (Ki3.GetComponent<Transform>().localScale.x==0.5F){
-								Ki3.GetComponent<Transform>().position = RefPoint+new Vector3(Ki3.GetComponent<Transform>().localScale.x/2F, 4.9F, 0);
-								Ki2.GetComponent<Transform>().position = RefPoint+new Vector3(Ki2.GetComponent<Transform>().localScale.x/2F, 6F, 0);
+								Ki3.GetComponent<Transform>().position = RefPoint+new Vector3(Ki3.GetComponent<Transform>().localScale.x/2F, -1.5F, 0);
+								Ki2.GetComponent<Transform>().position = RefPoint+new Vector3(Ki2.GetComponent<Transform>().localScale.x/2F, -1F, 0);
 							}
 						}else if(Ki2.GetComponent<Transform>().localScale.x>0.5F){
 							Ki2.GetComponent<Transform>().localScale = Ki2.GetComponent<Transform>().localScale-new Vector3(0.5F, 0, 0);
 							Ki2.GetComponent<Transform>().position = RefPoint+new Vector3(Ki2.GetComponent<Transform>().localScale.x/2F, 0, 0);
 							if (Ki2.GetComponent<Transform>().localScale.x==0.5F){
-								Ki2.GetComponent<Transform>().position = RefPoint+new Vector3(Ki2.GetComponent<Transform>().localScale.x/2F, 4.9F, 0);
-								Ki1.GetComponent<Transform>().position = RefPoint+new Vector3(Ki1.GetComponent<Transform>().localScale.x/2F, 6F, 0);
+								Ki2.GetComponent<Transform>().position = RefPoint+new Vector3(Ki2.GetComponent<Transform>().localScale.x/2F, -1.5F, 0);
+								Ki1.GetComponent<Transform>().position = RefPoint+new Vector3(Ki1.GetComponent<Transform>().localScale.x/2F, -1F, 0);
 							}
 						}else if(Ki1.GetComponent<Transform>().localScale.x>0.5F){
 							Ki1.GetComponent<Transform>().localScale = Ki1.GetComponent<Transform>().localScale-new Vector3(0.5F, 0, 0);
@@ -237,6 +242,7 @@ public class PlayerControler : MonoBehaviour {
 		//initialisation de hazard
 			hazard=Random.Range(1,3);
 		
+		if (Time.time > nextFire-0.25){
 		//si le joueur bouge à gauche alors...
 			if (moveHorizontal<0){
 				//...réinitialisation des varibles d'états du player
@@ -336,7 +342,11 @@ public class PlayerControler : MonoBehaviour {
 					isMouveLeft=false;
 					isMouveRight=false;
 					isMouveUp=false;
+				//changement du sprite du player
+					Tab[0]=Static;
+					SpriteMouv.GetComponent<MeshRenderer>().materials=Tab;
 			}
+		}
 		
 		//déplacement du player
 			Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);

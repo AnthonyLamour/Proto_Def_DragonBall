@@ -137,7 +137,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 149827679}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -10, y: 4.9, z: -4}
+  m_LocalPosition: {x: -10, y: -1.5, z: -4}
   m_LocalScale: {x: 0.5, y: 0.30000013, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -261,10 +261,12 @@ MonoBehaviour:
   Cible: {fileID: 174390954}
   SpriteMouv: {fileID: 1747239755}
   PorteurEffetKaioken: {fileID: 1222406195}
-  CoteG: {fileID: 2100000, guid: f8784e2e0ff1a804783c1613a2d5096c, type: 2}
-  FaceH: {fileID: 2100000, guid: 4c48278cdcbd5db4e96968b87d1f43e5, type: 2}
-  CoteD: {fileID: 2100000, guid: 9b4ca65bafd54884b8c4ab604200b4cd, type: 2}
-  FaceB: {fileID: 2100000, guid: c60f3582488bdbd43b21f0c6e5db0d1a, type: 2}
+  CoteG: {fileID: 2100000, guid: fabe7a2d9745d9e4bad4b5f13a4cd100, type: 2}
+  FaceH: {fileID: 2100000, guid: f1d985011d70afc48a35b28a7a2c4eb4, type: 2}
+  CoteD: {fileID: 2100000, guid: 26bf3eae11d6d9243aa61414ee9bdf33, type: 2}
+  FaceB: {fileID: 2100000, guid: 80b0fd974839bf348b51884d7c59183a, type: 2}
+  Static: {fileID: 2100000, guid: 9201b0a0cfada3044bbc51f5d84d02de, type: 2}
+  PlayerShot: {fileID: 2100000, guid: fbef9b4122ccd4e4a8afd2e5f31e435f, type: 2}
   ZoneDeJeu:
     xMin: -10
     xMax: 10
@@ -279,7 +281,7 @@ MonoBehaviour:
   kamehameha: {fileID: 8300000, guid: 47caf6ed39dbbdd42b98482604ceeb5f, type: 3}
   TailleBar: 5
   shot: {fileID: 1843439525443280, guid: b12baf2d9c089fb43a047580b715788d, type: 2}
-  shotSpeNiv3: {fileID: 1034466491323180, guid: f4cb4938f37c7a64aa5e1afbc03ecf1f,
+  shotSpeNiv3: {fileID: 1383996169026850, guid: f4cb4938f37c7a64aa5e1afbc03ecf1f,
     type: 2}
   shotSpeNiv2: {fileID: 1992607286574150, guid: 92f8c0fde0d105445b4cda3b7c218b2e,
     type: 2}
@@ -581,7 +583,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1170125698}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -10, y: 4.9, z: -4}
+  m_LocalPosition: {x: -10, y: -1.5, z: -4}
   m_LocalScale: {x: 0.5, y: 0.30000013, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1030,7 +1032,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 4c48278cdcbd5db4e96968b87d1f43e5, type: 2}
+  - {fileID: 2100000, guid: fbef9b4122ccd4e4a8afd2e5f31e435f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1297,7 +1299,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2063755841}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -10, y: 6, z: -4}
+  m_LocalPosition: {x: -10, y: -1, z: -4}
   m_LocalScale: {x: 0.5, y: 0.30000013, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
